@@ -5,7 +5,7 @@
 #include <OS/Thread.h>
 #include <OS/Task.h>
 #include <rabbitmq-c/amqp.h>
-#include <rabbitmq-c/tcp_socket.h>
+#include <rabbitmq-c/amqp_tcp_socket.h>
 namespace MQ {
     class rmqListenerData {
         public:

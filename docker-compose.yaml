@@ -15,7 +15,7 @@ services:
   natneg:
     ports:
       - "27901:30695"
-    command: /opt/openspy/bin/qr
+    command: /opt/openspy/bin/natneg
     env_file: .env-local
     image: os-core
   GP:
@@ -30,10 +30,22 @@ services:
     command: /opt/openspy/bin/SM
     env_file: .env-local
     image: os-core
+  cdkey:
+    ports:
+      - "29910:30835"
+    command: /opt/openspy/bin/cdkey
+    env_file: .env-local
+    image: os-core
   gstats:
     ports:
       - "29920:30836"
     command: /opt/openspy/bin/gstats
+    env_file: .env-local
+    image: os-core
+  peerchat:
+    ports:
+      - "6667:30771"
+    command: /opt/openspy/bin/peerchat
     env_file: .env-local
     image: os-core
   FESL-bf2142:

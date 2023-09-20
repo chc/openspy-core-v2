@@ -32,11 +32,20 @@ RUN make
 RUN make DESTDIR=/root/fs-out install
 
 WORKDIR /root/
+RUN curl -L https://codeload.github.com/redis/hiredis/tar.gz/v1.1.0 > hiredis.tar.gz
+RUN mkdir hiredis-src hiredis-bin
+RUN tar -xvzf hiredis.tar.gz --strip 1 -C hiredis-src
+WORKDIR hiredis-bin
+RUN cmake -DCMAKE_BUILD_TYPE="Release" ../hiredis-src
+RUN make
+RUN make DESTDIR=/root/fs-out install
+
+WORKDIR /root/
 RUN curl -L https://codeload.github.com/alanxz/rabbitmq-c/tar.gz/v0.9.0 > rabbitmq.tar.gz
 RUN mkdir rabbitmq-src rabbitmq-bin
 RUN tar -xvzf rabbitmq.tar.gz --strip 1 -C rabbitmq-src
 WORKDIR rabbitmq-bin
-RUN cmake -DCMAKE_BUILD_TYPE="Release" -DENABLE_SSL_SUPPORT="OFF"  ../rabbitmq-src
+RUN cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_INSTALL_INCLUDEDIR="include/rabbitmq-c" -DENABLE_SSL_SUPPORT="OFF"  ../rabbitmq-src
 RUN make
 RUN make DESTDIR=/root/fs-out install
 
@@ -45,14 +54,15 @@ RUN curl -L http://github.com/zeux/pugixml/releases/download/v1.9/pugixml-1.9.ta
 RUN mkdir pugixml-src pugixml-bin
 RUN tar -xvzf pugixml.tar.gz --strip 1 -C pugixml-src
 WORKDIR pugixml-bin
-RUN cmake -DCMAKE_BUILD_TYPE="Release" ../pugixml-src
+RUN cmake -DCMAKE_BUILD_TYPE="Release" -DCMAKE_CXX_FLAGS="-fPIC" ../pugixml-src
 RUN make
 RUN make DESTDIR=/root/fs-out install
 
 COPY code /root/code
+COPY cmake /root/cmake
 RUN mkdir /root/os-bin /root/os-make
 WORKDIR /root/os-make
-run cmake -DCMAKE_BINARY_DIR="/root/os-bin" -DCMAKE_CXX_FLAGS="-I/root/fs-out/usr/local/include -L/root/fs-out/usr/local/lib -lz -L/root/fs-out/usr/local/lib/x86_64-linux-gnu/"  -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE="Release" ../code
+run cmake -DCMAKE_PREFIX_PATH="/root/fs-out/usr/local" -DCMAKE_BINARY_DIR="/root/os-bin" -DCMAKE_CXX_FLAGS="-I/root/fs-out/usr/local/include -I/root/fs-out/usr/local/include/rabbitmq-c -L/root/fs-out/usr/local/lib -lz -L/root/fs-out/usr/local/lib/x86_64-linux-gnu/ -pthread"  -DBUILD_SHARED_LIBS:BOOL=ON -DCMAKE_BUILD_TYPE="Release" ../code
 run make
 RUN mkdir -p /root/fs-out/opt/openspy/bin /root/fs-out/opt/openspy/lib
 RUN mv /root/os-make/bin/* /root/fs-out/opt/openspy/bin

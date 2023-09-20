@@ -11,6 +11,13 @@ This is a full rewrite of the old openspy. Each service runs as a seperate proce
 ## Building
 A [docker file](Dockerfile) has been created to convey the required build and runtime environment. This has not been used for development, but can be helpful for testing and just getting the project running.
 
+```sh
+git clone https://github.com/chc/openspy-core-v2.git
+cd openspy-core-v2
+docker build -t os-core .
+docker-compose up
+```
+
 ## Running
 If you refer to the "openspy-web-backend" project, this will have everything you need to get openspy running.
 From the perspective of this application, the requirements are redis, rabbitmq, and then the openspy-web-backend.

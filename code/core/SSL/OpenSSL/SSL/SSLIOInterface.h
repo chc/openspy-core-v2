@@ -7,7 +7,9 @@
 
 #include <OS/SSL.h>
 
-#include <openssl/configuration.h>
+//#include <openssl/configuration.h>
+#include <openssl/opensslconf.h>
+
 #include <openssl/ssl.h>
 
 namespace SSLNetIOIFace {

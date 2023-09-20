@@ -101,6 +101,30 @@
                         </driver>
                 </drivers>
         </application>
+        <application name="cdkey">
+                <drivers>
+                        <driver name="keyserver">
+                                <addresses>
+                                        <address>
+                                                <ip>0.0.0.0</ip>
+                                                <port>30835</port>
+                                        </address>
+                                </addresses>
+                        </driver>
+                </drivers>
+        </application>
+        <application name="peerchat">
+                <drivers>
+                        <driver name="chatserver">
+                                <addresses>
+                                        <address>
+                                                <ip>0.0.0.0</ip>
+                                                <port>30771</port>
+                                        </address>
+                                </addresses>
+                        </driver>
+                </drivers>
+        </application>
         <application name="FESL">
                 <drivers>
                         <driver name="bf2142pc-server">

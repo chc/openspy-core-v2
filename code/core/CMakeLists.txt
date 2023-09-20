@@ -1,4 +1,4 @@
-cmake_minimum_required (VERSION 3.22)
+cmake_minimum_required (VERSION 3.5)
 
 project(openspy_core)
 
@@ -111,7 +111,7 @@ IF(WIN32)
 	set (ALL_PLAT ${PLAT_THREAD_SRCS} ${PLAT_THREAD_HDRS} ${PLAT_LOGGER_SRCS} ${PLAT_LOGGER_HDRS} ${PLAT_TIMER_SRCS} ${PLAT_TIMER_HDRS})
 	add_library (openspy SHARED ${ALL_SRCS} ${ALL_PLAT})
 	target_link_libraries(openspy ws2_32.lib ${CURL_LIBRARIES} pugixml rabbitmq::rabbitmq ${JANSSON_LIBRARIES} ${hiredis_LIBRARIES} ${SSL_LIBS})
-	add_compile_definitions(EVTMGR_USE_SELECT=1)
+	add_definitions(-DEVTMGR_USE_SELECT=1)
 ELSE() #unix
 	
 	file(GLOB PLAT_THREAD_SRCS "OS/Threads/PThreads/*.cpp")
@@ -136,9 +136,9 @@ ELSE() #unix
 	add_library (openspy SHARED ${ALL_SRCS} ${ALL_PLAT})
 	target_link_libraries(openspy pthread ${CURL_LIBRARIES} z pugixml rabbitmq::rabbitmq ${JANSSON_LIBRARIES} ${hiredis_LIBRARIES} ${SSL_LIBS})
 	if(APPLE)
-	add_compile_definitions(EVTMGR_USE_SELECT=1)
+	add_definitions(-DEVTMGR_USE_SELECT=1)
 	else()
-	add_compile_definitions(EVTMGR_USE_EPOLL=1)
+	add_definitions(-DEVTMGR_USE_EPOLL=1)
 	endif()
 ENDIF()
 
