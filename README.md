@@ -11,6 +11,27 @@ This is a full rewrite of the old openspy. Each service runs as a seperate proce
 ## Building
 A [docker file](Dockerfile) has been created to convey the required build and runtime environment. This has not been used for development, but can be helpful for testing and just getting the project running.
 
+### Compile using native libraries and cmake
+On Debian-based OS:
+
+1. install dependencies (as root):
+
+    ```
+    apt install libjansson-dev libhiredis-dev libuv1-dev libpugixml-dev librabbitmq-dev libssl-dev libcurl4-openssl-dev zlib1g-dev cmake build-essential
+    ```
+
+2. download and extract openspy
+3. compile
+
+    ```
+    cd <openspy-core-v2-master>/code
+    mkdir build && cd build
+    cmake ..
+    cmake --build .
+    ```
+
+Note: Debian 12 (Bookworm) and below ship `hiredis` without SSL support. If you want to compile OpenSpy Core on Debian 12 and derived OS (like Ubuntu 22.04), you need to compile `hiredis` with `USE_SSL=1` yourself. As of Debian 13 (Trixie) the SSL version is already included.
+
 ## Running
 If you refer to the "openspy-web-backend" project, this will have everything you need to get openspy running.
 From the perspective of this application, the requirements are redis, rabbitmq, and then the openspy-web-backend.
