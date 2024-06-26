@@ -168,7 +168,7 @@ namespace OS {
 }
 
 #ifdef _WIN32
-const char* inet_ntop(int af, const void *src, char *dst, size_t size);
+const char* inet_ntop(int af, const void *src, char *dst, socklen_t size);
 #endif
 
 
